@@ -1,6 +1,7 @@
 // ELEMENTOS
 const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
+const music = document.getElementById("bgMusic");
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -27,6 +28,7 @@ let score = 0;
 let gameOver = false;
 let speed = 1.5;
 let highScore = sessionStorage.getItem("highScore") || 0;
+
 
 // PULO
 const jump = () => {
@@ -68,6 +70,9 @@ const loop = setInterval(() => {
 
         gameOver = true;
 
+        // PARA A MÚSICA
+        music.pause();
+
         pipe.style.animation = 'none';
         pipe.style.left = `${pipePosition}px`;
 
@@ -91,6 +96,7 @@ setInterval(() => {
 
         score++;
 
+        // ATUALIZA RECORDE
         if (score > highScore) {
 
             highScore = score;
@@ -98,6 +104,7 @@ setInterval(() => {
 
         }
 
+        // AUMENTA DIFICULDADE
         if (score % 100 === 0) {
 
             speed -= 0.1;
@@ -110,6 +117,7 @@ setInterval(() => {
     }
 
 }, 200);
+
 
 // DESENHO NO CANVAS
 function draw() {
@@ -163,7 +171,18 @@ draw();
 // CONTROLES
 document.addEventListener('keydown', (event) => {
 
-    if (event.code === "Space") jump();
+    if (event.code === "Space") {
+
+        // INICIA MÚSICA SE NÃO ESTIVER TOCANDO
+        if (music.paused) {
+
+            music.volume = 0.4;
+            music.play();
+
+        }
+
+        jump();
+    }
 
     if (event.code === "Enter" && gameOver) {
         location.reload();
