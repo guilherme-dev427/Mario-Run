@@ -107,11 +107,18 @@ setInterval(() => {
         // AUMENTA DIFICULDADE
         if (score % 100 === 0) {
 
-            speed -= 0.1;
+            const pipePosition = pipe.offsetLeft;
 
-            if (speed < 0.7) speed = 0.7;
+            // só muda velocidade quando o cano estiver fora da tela
+            if (pipePosition < -80 || pipePosition > canvas.width) {
 
-            pipe.style.animation = `pipe-animation ${speed}s infinite linear`;
+                speed -= 0.1;
+
+                if (speed < 0.7) speed = 0.7;
+
+                pipe.style.animationDuration = speed + "s";
+            }
+
         }
 
     }
